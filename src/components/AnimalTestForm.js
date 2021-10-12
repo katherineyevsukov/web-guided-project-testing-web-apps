@@ -1,55 +1,60 @@
 import React from 'react';
-import {render, screen, waitFor} from '@testing-library/react';
+import { render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
 import AnimalForm from './AnimalForm';
 
-test("renders without errors", () => {
+test("Renders without errors", ()=> {
     render(<AnimalForm/>);
 });
 
-// test("displays species when submitting all fields", async () => {
-//     //Arrange: render our component
-//     render(<AnimalForm />);
-//     const species = "canine";
+test("Displays Species if all inputs are filled and submitted", async () => {
+    //Arrange: 
+    //  Render our Component
+    render(<AnimalForm/>);
 
-//     //Act: Submit our form
-//     //1. Give species input focus.
-//     // const speciesInput = screen.getByPlaceholderText("species");
-//     const speciesInput = screen.getByLabelText(/species:/i);
+    //Act: Fill out and submit our form
+    //  1. Focus on species input.
+    const speciesInput = screen.getByLabelText(/species:/i);
     
-//     //2. Type in species.
-//     userEvent.type(speciesInput, species);
+    //  2. Type in a species.
+    userEvent.type(speciesInput, "feline");
 
-//     //3. Give the age focus
-//     const ageInput = screen.getByLabelText(/age:/i);
-//     //4. Type in age.
-//     userEvent.type(ageInput, "12");
+    //  3. Focus on age input.
+    const ageInput = screen.getByLabelText(/age:/i);
+    //  4. Type in age.
+    userEvent.type(ageInput, "33");
 
-//     //5. Give the notes focus
-//     const noteInput = screen.getByLabelText(/notes:/i);
-//     //6. Type in notes.
-//     userEvent.type(noteInput, "this cutest");
+    //  5. Focus on notes input.
+    const notesInput = screen.getByLabelText(/notes:/i);
+    //  6. Type in notes.
+    userEvent.type(notesInput, "nice coat.");
 
-//     //7. click our submit button
-//     const button = screen.getByRole("button");
-//     userEvent.click(button);
+    //  8. Select the button.
+    const button = screen.getByRole("button");
+    //  9. Click on the button
+    userEvent.click(button);
 
-//     //Assert: Check to see if species name appears
+    //Assert:
+    //  Find species text on page and verify that it exists.
     
-//     // Promise Way
-//     // const speciesPromise = screen.findByText(species);
-//     // speciesPromise.then((speciesFeedback)=>{
-//     //     expect(speciesFeedback).toBeInTheDocument();
-//     // });
+    // Sync Way
+    // const speciesFeedback = screen.queryByText(/feline/i);
+    // expect(speciesFeedback).toBeInTheDocument();
 
-//     // Async Way
-//     // const speciesFeedback = await screen.findByText(species);
-//     // expect(speciesFeedback).toBeInTheDocument();
 
-//     // Await Way
-//     await waitFor(()=> {
-//         const speciesFeedback = screen.queryByText(species);
-//         expect(speciesFeedback).toBeInTheDocument();
-//     });
+    // Promises Way
+    // const speciesFeedbackPromise = screen.findByText(/feline/i);
+    // speciesFeedbackPromise.then(speciesFeedback => {
+    //     expect(speciesFeedback).toBeInTheDocument();
+    // });
 
-// });
+    // Async / Await
+    // const speciesFeedback = await screen.findByText(/feline/i);
+    // expect(speciesFeedback).toBeInTheDocument();
+
+    await waitFor(()=> {
+        const speciesFeedback = screen.queryByText(/feline/i);
+        expect(speciesFeedback).toBeInTheDocument();
+    });
+});
